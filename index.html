@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Weather App — Modern</title>
+
+  <!-- Fonts & icons -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Small meta for theme color on mobile -->
+  <meta name="theme-color" content="#7dcf96">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <div class="brand">
+        <i class="fas fa-cloud-sun"></i>
+        <h1>Weather</h1>
+      </div>
+
+      <div class="controls">
+        <div class="search-box" role="search">
+          <input id="locationInput" type="search" placeholder="Search city or ZIP" aria-label="Search city or ZIP">
+          <button id="searchBtn" class="icon-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+          <button id="locationBtn" class="icon-btn" title="Use current location" aria-label="Use current location"><i class="fas fa-location-arrow"></i></button>
+          <!-- voice button is added by JS if supported -->
+        </div>
+        <button id="themeToggle" class="pill" aria-label="Toggle theme">Auto</button>
+      </div>
+    </header>
+
+    <section class="stage">
+      <div id="loading" class="panel loading">
+        <div class="spinner" role="status" aria-hidden="true"></div>
+        <p>Fetching weather data…</p>
+      </div>
+
+      <article id="weatherCard" class="panel card" style="display:none" aria-live="polite">
+        <div class="card-top">
+          <div class="location">
+            <h2 id="cityName">—</h2>
+            <p id="country" class="muted">—</p>
+            <p id="dateTime" class="muted small">—</p>
+          </div>
+
+          <div class="icon-wrap">
+            <img id="weatherIcon" src="" alt="Weather icon">
+          </div>
+        </div>
+
+        <div class="card-main">
+          <div class="temp">
+            <span id="temperature" class="big">--</span>
+            <button class="temp-unit" title="Toggle unit">°C</button>
+          </div>
+          <div class="desc" id="weatherDescription">—</div>
+          <div class="feels">Feels like <span id="feelsLike">--</span>°</div>
+        </div>
+
+        <div class="card-grid">
+          <div class="detail-item"><i class="fas fa-eye"></i><div><div class="label">Visibility</div><div id="visibility" class="value">—</div></div></div>
+          <div class="detail-item"><i class="fas fa-tint"></i><div><div class="label">Humidity</div><div id="humidity" class="value">—</div></div></div>
+          <div class="detail-item"><i class="fas fa-wind"></i><div><div class="label">Wind</div><div id="windSpeed" class="value">—</div></div></div>
+          <div class="detail-item"><i class="fas fa-thermometer-half"></i><div><div class="label">Pressure</div><div id="pressure" class="value">—</div></div></div>
+          <div class="detail-item"><i class="fas fa-sun"></i><div><div class="label">UV</div><div id="uvIndex" class="value">—</div></div></div>
+          <div class="detail-item"><i class="fas fa-cloud"></i><div><div class="label">Clouds</div><div id="cloudCover" class="value">—</div></div></div>
+        </div>
+
+        <div class="forecast-section">
+          <h3>24-hour forecast</h3>
+          <div id="forecastContainer" class="forecast-container" tabindex="0" aria-label="Hourly forecast"></div>
+        </div>
+      </article>
+
+      <div id="errorMessage" class="panel error" style="display:none">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h3>Something went wrong</h3>
+        <p id="errorText">—</p>
+        <button id="retryBtn" class="btn">Try again</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Script -->
+  <script src="script.js" defer></script>
+  <!-- Optional service worker, may safely 404 if missing -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker?.register('/sw.js').catch(()=>{/*sw opt*/});
+      });
+    }
+  </script>
+</body>
+</html>
